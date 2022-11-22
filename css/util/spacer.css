@@ -1,0 +1,16 @@
+.u-spacer {
+    display: block;
+    padding: 4px;
+}
+
+.u-spacer-after::after {
+    content: "";
+    display: block;
+    padding: 4px;
+}
+
+.u-spacer-before::before {
+    content: "";
+    display: block;
+    padding: 4px;
+}

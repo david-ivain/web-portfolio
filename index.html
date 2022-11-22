@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=no, viewport-fit=cover" />
+        <title>David Ivain</title>
+        <link rel="stylesheet" href="./css/style.css">
+    </head>
+    <body>
+        <div class="s-wip-banner">WIP</div>
+        <div class="s-bg"></div>
+        <div class="s-main">
+            <div class="s-herosection c-section">
+                <img src="https://avatars.githubusercontent.com/u/32299050?v=4" class="s-herosection__image | u-shadow-8dp">
+                <div class="s-herosection__content">
+                    <h1 class="s-herosection__title c-section__title">Hello, welcome to my world!</h1>
+                    <p class="s-herosection__description">My name is David and I'm a web developer. Donec in nunc magna. Vivamus convallis magna urna, nec mattis nunc efficitur nec. Aliquam semper ligula ac dolor molestie vulputate. Phasellus non nisi nulla.</p>
+                </div>
+            </div>
+            <section class="s-showcase c-section" aria-describedby="showcase">
+                <h2 id="showcase" class="c-section__title">Showcase</h2>
+                <div class="c-section__content">
+                    <form data-action="searchSkills" class="u-d-flex">
+                        <input type="text" class="c-input | u-fg-1 u-fs-1 u-m-0 u-mr-2 u-mw-0" placeholder="What skills are you looking for ?" name="searchString" list="tag-list" autocomplete="off">
+                        <button type="submit" class="c-button | u-m-0">search</button>
+                        <datalist id="tag-list">
+                        </datalist>
+                    </form>
+                    <div class="u-spacer"></div>
+                    <h3 class="c-section__title2">Projects</h3>
+                    <div class="u-shadow-i-h">
+                        <div class="s-projects">
+                            <div class="s-projects__item s-projectitem">
+                                <h4 class="s-projectitem__title">My Portfolio</h4>
+                                <div class="s-projectitem__description">
+                                    <p>This is my personal website. You're looking at it right now!</p>
+                                <p>It was made using pure raw <span data-tags="html5">HTML</span>, <span data-tags="js javascript es6">JS</span> and <span data-tags="css3 cascading style sheets">CSS</span> because why not.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="u-spacer"></div>
+                    <h3 class="c-section__title2">Skills</h3>
+                    <div class="s-skills">
+                        <div class="s-skills__item s-skilltile">
+                            <h4 class="s-skilltile__title" data-action="openSkillTile">Web Frontend<i class="ri-custom"></i></h4>
+                            <ul class="s-skilltile__list s-skilltilelist">
+                                <li class="s-skilltilelist__item ri-information-line">Salesforce Commerce Cloud</li>
+                                <li class="s-skilltilelist__item" data-tags="js javascript es6">JavaScript ES6</li>
+                                <li class="s-skilltilelist__item" data-tags="js ts javascript typescript">TypeScript</li>
+                                <li class="s-skilltilelist__item" data-tags="react reactjs javascript">React</li>
+                                <li class="s-skilltilelist__item" data-tags="vue vuejs javascript">Vue</li>
+                                <li class="s-skilltilelist__item" data-tags="svelte sveltejs javascript">Svelte</li>
+                                <li class="s-skilltilelist__item" data-tags="node nodejs javascript npm">Node JS</li>
+                                <li class="s-skilltilelist__item" data-tags="webpack webpackjs javascript">Webpack</li>
+                                <li class="s-skilltilelist__item" data-tags="html html5">HTML5</li>
+                                <li class="s-skilltilelist__item" data-tags="css css3 cascading style sheets">CSS3</li>
+                                <li class="s-skilltilelist__item" data-tags="scss css3 sass cascading style sheets">Sass</li>
+                            </ul>
+                        </div>
+                        <div class="s-skills__item s-skilltile">
+                            <h4 class="s-skilltile__title" data-action="openSkillTile">Mobile<i class="ri-custom"></i></h4>
+                            <ul class="s-skilltile__list s-skilltilelist">
+                                <li class="s-skilltilelist__item ri-information-line" data-tags="flutter dart ios iphone android mobile smartphone">Flutter</li>
+                                <li class="s-skilltilelist__item" data-tags="reactjs javascript native android ios iphone mobile smartphone">React Native</li>
+                                <li class="s-skilltilelist__item" data-tags="android java kotlin native mobile smartphone">Android</li>
+                                <li class="s-skilltilelist__item" data-tags="android kotlin native jetpack compose mobile smartphone">JetPack Compose</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer class="c-section">
+                <div class="c-section__content">
+                    <div><a href="https://fonts.google.com/specimen/Montserrat">Montserrat font (Google Fonts)</a></div>
+                    <div><a href="https://remixicon.com">Remix Icon</a></div>
+                    <div><a href="https://www.freepik.com/free-photo/aerial-shot-beautiful-tree-forest-covered-with-fog-bled-slovenia_9184586.htm#query=background&position=3&from_view=keyword">Image by wirestock</a> on Freepik</div>
+                </div>
+            </footer>
+        </div>
+        <script src="./js/script.js" type="module"></script>
+    </body>
+</html>

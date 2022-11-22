@@ -1,0 +1,25 @@
+.s-herosection {
+    padding-top: 64px;
+    text-align: center;
+    padding-inline: 24px;
+}
+
+.s-herosection__image {
+    width: 192px;
+    height: min(192px, auto);
+    max-width: 100%;
+    text-align: center;
+    border-radius: 50%;
+    margin-bottom: 32px;
+}
+
+.s-herosection__title {
+    font-size: var(--font-size-xxxxl);
+    margin-block: 0;
+}
+
+.s-herosection__description {
+    font-style: italic;
+    text-align: left;
+    color: var(--color-text-on-dark);
+}

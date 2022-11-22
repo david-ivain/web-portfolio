@@ -1,0 +1,11 @@
+.c-input {
+    background-color: transparent;
+    border: 1px solid var(--color-text-on-dark);
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--color-text-on-dark);
+}
+
+.c-input::placeholder {
+    color: var(--color-text-on-dark-medium);
+}

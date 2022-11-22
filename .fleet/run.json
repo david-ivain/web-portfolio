@@ -1,0 +1,9 @@
+{
+    "configurations": [
+        {
+            "type": "command",
+            "name": "dev",
+            "program": "live-server",
+        },
+    ]
+}

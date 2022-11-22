@@ -1,0 +1,19 @@
+html {
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: var(--color-background-dark);
+}
+
+body {
+    margin: 0;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+    //outline: 1px solid green;
+}
+
+a {
+    color: cornflowerblue;
+}

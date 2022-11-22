@@ -26,6 +26,7 @@ export default function Search() {
 
 function onSearchSubmit(event) {
     event.preventDefault()
+    document.activeElement.blur()
     new FormData(event.currentTarget)
 }
 

@@ -5,5 +5,10 @@
             "name": "dev",
             "program": "live-server",
         },
+        {
+            "type": "command",
+            "name": "deploy",
+            "program": "../syncwebsite.sh",
+        }
     ]
 }

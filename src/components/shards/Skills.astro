@@ -1,0 +1,226 @@
+---
+import "@scripts/constants";
+import { TagGroups } from "@scripts/constants";
+interface Skill {
+    name: string;
+    tags: Array<string>;
+}
+interface SkillGroup {
+    name: string;
+    skills: Array<Skill>;
+}
+const skillGroups: SkillGroup[] = [
+    {
+        name: "Web Frontend",
+        skills: [
+            { name: "Salesforce Commerce Cloud", tags: [...TagGroups.SFCC] },
+            { name: "JavaScript ES6", tags: [...TagGroups.JS] },
+            { name: "TypeScript", tags: [...TagGroups.JS, ...TagGroups.TS] },
+            {
+                name: "React",
+                tags: [...TagGroups.REACT, ...TagGroups.JS, ...TagGroups.TS],
+            },
+            { name: "Vue", tags: [...TagGroups.VUE, ...TagGroups.JS] },
+            { name: "Svelte", tags: [...TagGroups.SVELTE, ...TagGroups.JS] },
+            { name: "Node JS", tags: [...TagGroups.NODE, ...TagGroups.JS] },
+            { name: "Webpack", tags: [...TagGroups.WEBPACK, ...TagGroups.JS] },
+            { name: "HTML5", tags: [...TagGroups.HTML] },
+            { name: "CSS3", tags: [...TagGroups.CSS] },
+            { name: "Sass", tags: [...TagGroups.SASS, ...TagGroups.CSS] },
+        ],
+    },
+    {
+        name: "Mobile",
+        skills: [
+            {
+                name: "Flutter",
+                tags: [
+                    ...TagGroups.FLUTTER,
+                    ...TagGroups.IOS,
+                    ...TagGroups.ANDROID,
+                    ...TagGroups.MOBILE,
+                ],
+            },
+            {
+                name: "React Native",
+                tags: [
+                    ...TagGroups.REACT,
+                    ...TagGroups.REACTNATIVE,
+                    ...TagGroups.JS,
+                    ...TagGroups.ANDROID,
+                    ...TagGroups.IOS,
+                    ...TagGroups.MOBILE,
+                ],
+            },
+            {
+                name: "Android",
+                tags: [
+                    ...TagGroups.ANDROID,
+                    ...TagGroups.JAVA,
+                    ...TagGroups.KOTLIN,
+                    ...TagGroups.MOBILE,
+                ],
+            },
+            {
+                name: "JetPack Compose",
+                tags: [
+                    ...TagGroups.ANDROID,
+                    ...TagGroups.KOTLIN,
+                    ...TagGroups.JETPACKC,
+                    ...TagGroups.MOBILE,
+                ],
+            },
+        ],
+    },
+];
+---
+
+<h3 class="c-section__title2">Skills</h3>
+<div class="s-skills">
+    {
+        skillGroups.map(({ name, skills }) => (
+            <div class="s-skills__item s-skilltile">
+                <h4 class="s-skilltile__title" data-action="openSkillTile">
+                    {name}
+                    <i class="ri-custom" />
+                </h4>
+                <ul class="s-skilltile__list s-skilltilelist">
+                    {skills.map((skill: Skill) => (
+                        <li
+                            class="s-skilltilelist__item"
+                            data-tags={
+                                skill.tags.length
+                                    ? skill.tags.reduce((prev, current) =>
+                                          prev.concat(` ${current}`)
+                                      )
+                                    : ""
+                            }
+                        >
+                            {skill.name}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        ))
+    }
+</div>
+<style>
+    :root {
+        --skill-title-line-height: 1.25;
+        --skill-item-line-height: 1.75;
+        --skill-tile-min-height: calc(
+            var(--font-size-ml) * var(--skill-title-line-height) +
+                var(--font-size-sm) * var(--skill-item-line-height) + 34px +
+                var(--font-size-ml) * 0.5
+        );
+        --skill-tile-animation-duration: calc(
+            0.5s / (var(--viewport-height) / 1000)
+        );
+    }
+
+    .s-skills__item:not(:last-child) {
+        margin-bottom: 8px;
+    }
+
+    .s-skilltile {
+        padding: 16px;
+        border: 1px solid;
+        border-radius: 8px;
+    }
+
+    .s-skilltile.open {
+        overflow: hidden;
+        animation: open-skill-tile var(--skill-tile-animation-duration);
+    }
+
+    .s-skilltile__title {
+        line-height: var(--skill-title-line-height);
+        font-size: var(--font-size-ml);
+        margin: 0 0 0.5em;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .s-skilltile__title .ri-custom::before {
+        content: "\ea4e";
+    }
+
+    .s-skilltile.open .s-skilltile__title .ri-custom::before {
+        content: "\ea78";
+    }
+
+    .s-skilltilelist {
+        margin: 0;
+        padding: 0;
+        font-size: var(--font-size-sm);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .s-skilltilelist__item {
+        list-style: none;
+        display: inline;
+        line-height: 1.75;
+    }
+
+    .s-skilltilelist__item.highlight {
+        text-decoration: underline;
+    }
+
+    .s-skilltilelist__item:not(:last-child)::after {
+        content: " ●";
+        letter-spacing: 0.5em;
+        display: inline;
+    }
+
+    .s-skilltile.open .s-skilltilelist {
+        font-size: var(--font-size-sm);
+        white-space: normal;
+    }
+
+    .s-skilltile.open .s-skilltilelist__item {
+        //list-style-type: " ● ";
+        //list-style-position: inside;
+        //display: list-item;
+        display: block;
+        padding: 4px 8px;
+        background-color: var(--color-text-on-dark-medium);
+        color: black;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    .s-skilltile.open .s-skilltilelist__item.highlight {
+        text-decoration: underline;
+        background-color: var(--color-text-on-dark);
+    }
+
+    .s-skilltile.open .s-skilltilelist__item:not(:last-child) {
+        margin-bottom: 4px;
+    }
+
+    .s-skilltile.open .s-skilltilelist__item::after {
+        content: none;
+    }
+
+    .s-skilltile.open .s-skilltilelist__item::before {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .s-skilltile:not(.open) .s-skilltilelist__item::before {
+        display: none;
+    }
+
+    @keyframes open-skill-tile {
+        0% {
+            max-height: var(--skill-tile-min-height);
+        }
+        100% {
+            max-height: 100vh;
+        }
+    }
+</style>

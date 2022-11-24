@@ -1,0 +1,50 @@
+---
+interface Props {
+    class?: string;
+    "data-title": string;
+}
+Astro.props.class += " c-section";
+---
+
+<section {...Astro.props} aria-describedby={Astro.props["data-title"]}>
+    <h2 class="c-section__title" id={Astro.props["data-title"]}>
+        {Astro.props["data-title"]}
+    </h2>
+    <div class="c-section__content">
+        <slot />
+    </div>
+</section>
+<style>
+    .c-section {
+        padding: 8px;
+    }
+
+    .c-section:not(:last-of-type) {
+        padding-bottom: 0;
+    }
+
+    [class*="c-section__title"] {
+        color: var(--color-text-on-dark);
+        font-weight: bold;
+    }
+
+    .c-section__title {
+        text-align: center;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.28);
+        font-size: var(--font-size-xxxl);
+        margin-block: 0.75em;
+    }
+
+    .c-section__title2 {
+        font-size: var(--font-size-xl);
+        margin-block: 0.5em;
+    }
+
+    .c-section__content {
+        background-color: var(--color-background-dark);
+        color: var(--color-text-on-dark);
+        padding: 16px;
+        border-radius: 16px;
+        box-shadow: var(--box-shadow-8dp);
+    }
+</style>

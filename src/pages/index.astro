@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import Footer from "@components/shards/Footer.astro";
+import HeroSection from "@components/shards/HeroSection.astro";
+import BackGround from "@components/shards/BackGround.astro";
+import WIPBanner from "@components/shards/WIPBanner.astro";
+import ShowcaseSection from "@components/shards/ShowcaseSection.astro";
+
+import "@styles/util.css";
+---
+
+<BaseLayout title="David Ivain">
+    <WIPBanner />
+    <BackGround />
+    <div class="s-main">
+        <HeroSection />
+        <ShowcaseSection />
+        <Footer />
+    </div>
+</BaseLayout>

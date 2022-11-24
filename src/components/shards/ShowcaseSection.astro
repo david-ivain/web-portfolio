@@ -1,0 +1,121 @@
+---
+import Skills from "@components/shards/Skills.astro";
+import Button from "@components/ui/Button.astro";
+import Input from "@components/ui/Input.astro";
+import Projects from "@components/shards/Projects.astro";
+import Section from "@components/ui/Section.astro";
+---
+
+<Section class="s-showcase" data-title="Showcase">
+    <form data-action="searchSkills" class="u-d-flex">
+        <Input
+            type="text"
+            class="u-fg-1 u-fs-1 u-m-0 u-mr-2 u-mw-0"
+            placeholder="What skills are you looking for ?"
+            name="searchString"
+            list="tag-list"
+            autocomplete="off"
+        />
+        <Button
+            type="submit"
+            class="u-m-0"
+            data-action="searchSkillsAndProjects">search</Button
+        >
+        <datalist id="tag-list"></datalist>
+    </form>
+    <div class="u-spacer"></div>
+    <Projects />
+    <div class="u-spacer"></div>
+    <Skills />
+</Section>
+<script>
+    import {Tags} from "@scripts/constants";
+    interface State {
+        projectsAndSkills: { element: HTMLElement; tags: Set<string> }[];
+        tagList: Set<string>;
+    }
+    const state: State = {
+        projectsAndSkills: [],
+        tagList: new Set(Object.values(Tags)),
+    };
+
+    function init() {
+        state.projectsAndSkills = Array.from(
+            document.querySelectorAll(".s-skills__item, .s-projects__item")
+        ).map((item) => {
+            const tagsList = Array.from(
+                item.querySelectorAll("[data-tags]")
+            ).map((tagHolder) =>
+                (tagHolder as HTMLElement).dataset.tags
+                    .split(" ")
+                    .filter(Boolean)
+            );
+            const tags = new Set(
+                tagsList.length
+                    ? tagsList.reduce((prev, current) => prev.concat(current))
+                    : []
+            );
+            /*tags.forEach(state.tagList.add, state.tagList);*/
+            return {
+                element: item as HTMLElement,
+                tags: tags,
+            };
+        });
+        document.querySelector("#tag-list").innerHTML = Array.from(
+            state.tagList
+        )
+            .map((tag) => `<option>${tag}</option>`)
+            .reduce((prev, current) => prev.concat(current));
+        document
+            .querySelector('[data-action="searchSkills"]')
+            .addEventListener("submit", onSearchSubmit);
+        document
+            .querySelector('[data-action="searchSkills"]')
+            .addEventListener("formdata", onSearchFormData);
+    }
+
+    function onSearchSubmit(event: SubmitEvent) {
+        event.preventDefault();
+        (document.activeElement as HTMLElement).blur();
+        new FormData(event.currentTarget as HTMLFormElement);
+    }
+
+    function onSearchFormData(event: FormDataEvent) {
+        const formData = event.formData;
+        const searchCriterias = formData
+            .get("searchString")
+            .toString()
+            //.replaceAll(/[^A-Za-zÀ-ÖØ-öø-ÿ]+/gi, " ")
+            .split(/ +/)
+            .filter(Boolean);
+        document
+            .querySelectorAll("[data-tags]")
+            .forEach((item) => item.classList.remove("highlight"));
+        state.projectsAndSkills.forEach((item) => {
+            if (searchCriterias.length === 0)
+                return (item.element.style.display = null);
+            const searchResults: NodeListOf<Element>[] = searchCriterias
+                .map((searchCriteria) =>
+                    item.element.querySelectorAll(
+                        `[data-tags*="${searchCriteria}" i]`
+                    )
+                )
+                .filter((result) => result.length);
+
+            if (searchResults.length) {
+                item.element.style.display = null;
+                item.element.classList.add("open");
+                searchResults
+                    .map((item) => Array.from(item))
+                    .reduce((prev, current) =>
+                        prev.concat(current)
+                    )
+                    .forEach((item) => {
+                        item.classList.add("highlight");
+                    });
+            } else item.element.style.display = "none";
+        });
+    }
+
+    init();
+</script>

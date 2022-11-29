@@ -21,5 +21,12 @@
   "homepage": "https://github.com/david-ivain/web-portfolio#readme",
   "dependencies": {
     "astro": "1.6.10"
-  }
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "autoprefixer": "^10.4.13"
+  },
+  "browserslist": [
+    "dead"
+  ]
 }

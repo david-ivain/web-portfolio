@@ -1,0 +1,33 @@
+---
+import Skills from "@components/blocks/sections/Skills.astro";
+import Button from "@components/ui/Button.astro";
+import Input from "@components/ui/Input.astro";
+import Projects from "@components/blocks/sections/Projects.astro";
+import Section from "@components/ui/Section.astro";
+---
+
+<Section class="s-showcase" data-title="Showcase">
+    <form data-action="searchSkills" class="u-d-flex">
+        <Input
+            type="text"
+            class="u-fg-1 u-fs-1 u-m-0 u-mr-2 u-mw-0"
+            placeholder="What skills are you looking for ?"
+            name="searchString"
+            list="tag-list"
+            autocomplete="off"
+        />
+        <Button
+            type="submit"
+            class="u-m-0"
+            data-action="searchSkillsAndProjects">search</Button
+        >
+        <datalist id="tag-list"></datalist>
+    </form>
+    <div class="u-spacer"></div>
+    <Projects />
+    <div class="u-spacer"></div>
+    <Skills />
+</Section>
+<script>
+    import "@components/blocks/sections/ShowcaseSection";
+</script>

@@ -1,64 +1,55 @@
 import { CustomEvents } from "@scripts/events";
 
-function init() {
-    document
-        .querySelectorAll('[data-action="openSkillTile"]')
-        .forEach((skillTileToggle: HTMLElement) => {
-            new SkillTile(
-                skillTileToggle.closest(".s-skilltile"),
-                skillTileToggle
-            );
-        });
+export default {
+    init() {
+        document
+            .querySelectorAll('[data-action="openSkillTile"]')
+            .forEach((skillTileToggle: HTMLElement) => {
+                new SkillTile(
+                    skillTileToggle.closest(".s-skilltile"),
+                    skillTileToggle
+                );
+            });
+    }
 }
 
 class SkillTile {
-    skillTile: HTMLElement;
+    tile: HTMLElement;
     toggle: HTMLElement;
-    closedHeight: number = 0;
-    openHeight: number = 0;
+    closedHeight: number;
+    openHeight: number;
 
     constructor(skillTile: HTMLElement, toggle: HTMLElement) {
-        this.skillTile = skillTile;
+        this.tile = skillTile;
         this.toggle = toggle;
         this.init();
     }
 
     init() {
-        this.toggle.addEventListener("click", () =>
-            onSkillTileClick(
-                this.skillTile,
-                this.closedHeight,
-                this.openHeight
-            )
-        );
-        this.skillTile.addEventListener(CustomEvents.Toggle, () =>
-            onSkillTileClick(
-                this.skillTile,
-                this.closedHeight,
-                this.openHeight
-            )
-        );
-        this.closedHeight = this.skillTile.scrollHeight;
-        this.skillTile.classList.add("open");
-        this.openHeight = this.skillTile.scrollHeight;
-        this.skillTile.classList.remove("open");
-        this.skillTile.style.height = `${this.closedHeight}px`;
+        this.tile.addEventListener(CustomEvents.Toggle, this.initHeights.bind(this), { once: true, capture: true });
+        this.tile.addEventListener(CustomEvents.Toggle, this.onSkillTileToggle.bind(this));
+        this.toggle.addEventListener("click", () => this.tile.dispatchEvent(new Event(CustomEvents.Toggle)));
     }
-}
-function onSkillTileClick(
-    skillTile: HTMLElement,
-    closedHeight: number,
-    openHeight: number
-) {
-    if (skillTile && skillTile.classList.contains("open")) {
-        skillTile.classList.remove("open");
-        skillTile.style.height = closedHeight
-            ? `${closedHeight}px`
-            : "auto";
-    } else {
-        skillTile.classList.add("open");
-        skillTile.style.height = openHeight ? `${openHeight}px` : "auto";
-    }
-}
 
-init();
+    initHeights() {
+        this.closedHeight = this.tile.offsetHeight;
+        this.tile.style.height = `${this.closedHeight}px`;
+        this.tile.classList.add("open");
+        this.openHeight = this.tile.scrollHeight + 2; // include borders
+        this.tile.dispatchEvent(new Event(CustomEvents.Toggle));
+    }
+
+    onSkillTileToggle() {
+        if (this.tile && this.tile.classList.contains("open")) {
+            this.tile.classList.remove("open");
+            this.tile.style.height = this.closedHeight
+                ? `${this.closedHeight}px`
+                : "auto";
+        } else {
+            this.tile.classList.add("open");
+            this.tile.style.height = this.openHeight
+                ? `${this.openHeight}px`
+                : "auto";
+        }
+    }
+}

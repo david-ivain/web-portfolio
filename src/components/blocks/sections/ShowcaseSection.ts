@@ -10,40 +10,43 @@ const state: State = {
     tagList: new Set(Object.values(Tags)),
 };
 
-function init() {
-    state.projectsAndSkills = Array.from(
-        document.querySelectorAll(".s-skills__item, .s-projects__item")
-    ).map((item) => {
-        const tagsList = Array.from(
-            item.querySelectorAll("[data-tags]")
-        ).map((tagHolder) =>
-            (tagHolder as HTMLElement).dataset.tags
-                .split(" ")
-                .filter(Boolean)
-        );
-        const tags = new Set(
-            tagsList.length
-                ? tagsList.reduce((prev, current) => prev.concat(current))
-                : []
-        );
-        /*tags.forEach(state.tagList.add, state.tagList);*/
-        return {
-            element: item as HTMLElement,
-            tags: tags,
-        };
-    });
-    document.querySelector("#tag-list").innerHTML = Array.from(
-        state.tagList
-    )
-        .map((tag) => `<option>${tag}</option>`)
-        .reduce((prev, current) => prev.concat(current));
-    document
-        .querySelector('[data-action="searchSkills"]')
-        .addEventListener("submit", onSearchSubmit);
-    document
-        .querySelector('[data-action="searchSkills"]')
-        .addEventListener("formdata", onSearchFormData);
+export default {
+    init() {
+        state.projectsAndSkills = Array.from(
+            document.querySelectorAll(".s-skills__item, .s-projects__item")
+        ).map((item) => {
+            const tagsList = Array.from(
+                item.querySelectorAll("[data-tags]")
+            ).map((tagHolder) =>
+                (tagHolder as HTMLElement).dataset.tags
+                    .split(" ")
+                    .filter(Boolean)
+            );
+            const tags = new Set(
+                tagsList.length
+                    ? tagsList.reduce((prev, current) => prev.concat(current))
+                    : []
+            );
+            /*tags.forEach(state.tagList.add, state.tagList);*/
+            return {
+                element: item as HTMLElement,
+                tags: tags,
+            };
+        });
+        document.querySelector("#tag-list").innerHTML = Array.from(
+            state.tagList
+        )
+            .map((tag) => `<option>${tag}</option>`)
+            .reduce((prev, current) => prev.concat(current));
+        document
+            .querySelector('[data-action="searchSkills"]')
+            .addEventListener("submit", onSearchSubmit);
+        document
+            .querySelector('[data-action="searchSkills"]')
+            .addEventListener("formdata", onSearchFormData);
+    }
 }
+
 
 function onSearchSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -86,5 +89,3 @@ function onSearchFormData(event: FormDataEvent) {
         } else item.element.style.display = "none";
     });
 }
-
-init();

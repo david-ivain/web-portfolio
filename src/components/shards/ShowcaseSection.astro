@@ -29,7 +29,9 @@ import Section from "@components/ui/Section.astro";
     <Skills />
 </Section>
 <script>
-    import {Tags} from "@scripts/constants";
+    import { Tags } from "@scripts/constants";
+    import { CustomEvents } from "@scripts/events";
+
     interface State {
         projectsAndSkills: { element: HTMLElement; tags: Set<string> }[];
         tagList: Set<string>;
@@ -104,12 +106,11 @@ import Section from "@components/ui/Section.astro";
 
             if (searchResults.length) {
                 item.element.style.display = null;
-                item.element.classList.add("open");
+                if (!item.element.classList.contains("open"))
+                    item.element.dispatchEvent(new Event(CustomEvents.Toggle));
                 searchResults
                     .map((item) => Array.from(item))
-                    .reduce((prev, current) =>
-                        prev.concat(current)
-                    )
+                    .reduce((prev, current) => prev.concat(current))
                     .forEach((item) => {
                         item.classList.add("highlight");
                     });

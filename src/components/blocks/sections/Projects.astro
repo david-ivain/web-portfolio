@@ -1,5 +1,5 @@
 ---
-import {TagGroups} from "@scripts/constants";
+import { TagGroups } from "@scripts/constants";
 interface Project {
     name: string;
     description: string[];
@@ -16,11 +16,22 @@ const projects: Project[] = [
             <span data-tags="${TagGroups.CSS}">CSS</span>.`,
         ],
     },
+    {
+        name: "My Portfolio",
+        description: [
+            "This is my personal website. You're looking at it right now!",
+            `It was made using Asto. Technologies used include
+            <span data-tags="${TagGroups.HTML}">HTML</span>,
+            <span data-tags="${TagGroups.JS}">JS</span>,
+            <span data-tags="${TagGroups.TS}">TypeScript</span> and
+            <span data-tags="${TagGroups.CSS}">CSS</span>.`,
+        ],
+    },
 ];
 ---
 
-<h3 class="c-section__title2">Projects</h3>
-<div class="u-shadow-i-h">
+<h3 class="c-section__title2 s-projects__title">Projects<button data-action="enlargeProjects"><i class="ri-add-circle-line"></i></button></h3>
+<div class="s-projects__shadow">
     <div class="s-projects">
         {
             projects.map(({ name, description }) => (
@@ -36,12 +47,15 @@ const projects: Project[] = [
         }
     </div>
 </div>
+<script>
+    import Projects from "@components/blocks/sections/Projects";
+    Projects.init();
+</script>
 <style>
     .s-projects {
         display: flex;
         overflow: auto;
         scroll-snap-type: x proximity;
-        padding-inline: 8px;
         padding-bottom: 4px;
     }
 
@@ -59,12 +73,60 @@ const projects: Project[] = [
         border-radius: 2px;
     }
 
-    .s-projects__item {
-        scroll-snap-align: center;
+    .s-projects__title {
+        position: relative;
     }
 
-    .s-projects__item:not(:last-child) {
+    .s-projects__title button {
+        position:  absolute;
+        top: 50%;
+        margin: 0;
+        margin-left: 16px;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        color: var(--color-text-on-dark);
+        font-size: var(--font-size-xxl);
+        transform: translateY(-50%);
+    }
+    
+    .s-projects__title .ri-add-circle-line {
+        display: block;
+        transition: transform 0.5s;
+    }
+
+    .s-projects__title button.open .ri-add-circle-line {
+        transform: rotate(45deg);
+    }
+
+    .s-projects__shadow {
+        position: relative;
+    }
+
+    .s-projects__shadow::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 4px;
+        left: -1px;
+        right: -1px;
+        background: linear-gradient(
+            to right,
+            var(--color-background-dark),
+            transparent 9px,
+            transparent calc(100% - 9px),
+            var(--color-background-dark)
+        );
+        pointer-events: none;
+    }
+
+    .s-projects__item {
+        scroll-snap-align: center;
         margin-right: 8px;
+    }
+
+    .s-projects__item:first-child {
+        margin-left: 8px;
     }
 
     .s-projectitem {
@@ -76,6 +138,12 @@ const projects: Project[] = [
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        transition: flex 0.5s, height 0.5s;
+    }
+
+    .s-projects.open .s-projectitem {
+        flex: min(400px, calc(100% - 16px)) 0 0;
+        height: 400px;
     }
 
     .s-projectitem__title {
@@ -94,4 +162,47 @@ const projects: Project[] = [
     .s-projectitem__description span.highlight {
         text-decoration: underline;
     }
+
+    /*
+     * Media queries
+     */
+    
+    @media (max-width: 464px) {
+        .s-projects.open {
+            scroll-snap-type: x mandatory;
+        }
+    }
+
+    /*
+     * Safari styles
+     */
+
+    /* @media not all and (min-resolution:.001dpcm)
+    { @supports (-webkit-appearance:none) and (stroke-color:transparent) { */
+    _::-webkit-full-page-media,
+    _:future,
+    :root .s-projects {
+        margin-inline: 8px;
+    }
+    _::-webkit-full-page-media,
+    _:future,
+    :root .s-projects__item:first-child {
+        margin-left: 0;
+    }
+    _::-webkit-full-page-media,
+    _:future,
+    :root .s-projects__item:last-child {
+        margin-right: 0;
+    }
+    _::-webkit-full-page-media,
+    _:future,
+    :root .s-projects__shadow::after {
+        content: none;
+    }
+    _::-webkit-full-page-media,
+    _:future,
+    :root .s-projects.open .s-projectitem {
+        flex: min(400px, 100%) 0 0;
+    }
+    /* }} */
 </style>

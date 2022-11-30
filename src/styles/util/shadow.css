@@ -54,18 +54,3 @@
 .u-shadow-24dp {
     box-shadow: var(--box-shadow-24dp);
 }
-
-.u-shadow-i-h {
-    position: relative;
-}
-
-.u-shadow-i-h::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 4px;
-    left: -1px;
-    right: -1px;
-    background: linear-gradient(to right, var(--color-background-dark), transparent 9px, transparent calc(100% - 9px), var(--color-background-dark));
-    pointer-events: none;
-}

@@ -1,5 +1,5 @@
-import { Tags } from "@scripts/constants";
-import { CustomEvents } from "@scripts/events";
+import { Tags } from "@scripts/data/tags";
+import { CustomEvents } from "@scripts/util/events";
 
 interface State {
     projectsAndSkills: { element: HTMLElement; tags: Set<string> }[];
@@ -10,13 +10,28 @@ const state: State = {
     tagList: new Set(Object.values(Tags)),
 };
 
-export default {
+const data = {
+    elements: {
+        projectsAndSkills: '.s-skills__item, .s-projects__item',
+        tagHolders: '[data-tags]',
+        tagList: '#tag-list'
+    },
+    action: {
+        search: '[data-action="searchSkills"]'
+    },
+    classes: {
+        highlight: 'highlight',
+        open: 'open'
+    }
+} as const;
+
+const ShowcaseSection = {
     init() {
         state.projectsAndSkills = Array.from(
-            document.querySelectorAll(".s-skills__item, .s-projects__item")
+            document.querySelectorAll(data.elements.projectsAndSkills)
         ).map((item) => {
             const tagsList = Array.from(
-                item.querySelectorAll("[data-tags]")
+                item.querySelectorAll(data.elements.tagHolders)
             ).map((tagHolder) =>
                 (tagHolder as HTMLElement).dataset.tags
                     .split(" ")
@@ -27,22 +42,21 @@ export default {
                     ? tagsList.reduce((prev, current) => prev.concat(current))
                     : []
             );
-            /*tags.forEach(state.tagList.add, state.tagList);*/
             return {
                 element: item as HTMLElement,
                 tags: tags,
             };
         });
-        document.querySelector("#tag-list").innerHTML = Array.from(
+        document.querySelector(data.elements.tagList).innerHTML = Array.from(
             state.tagList
         )
             .map((tag) => `<option>${tag}</option>`)
             .reduce((prev, current) => prev.concat(current));
         document
-            .querySelector('[data-action="searchSkills"]')
+            .querySelector(data.action.search)
             .addEventListener("submit", onSearchSubmit);
         document
-            .querySelector('[data-action="searchSkills"]')
+            .querySelector(data.action.search)
             .addEventListener("formdata", onSearchFormData);
     }
 }
@@ -63,8 +77,8 @@ function onSearchFormData(event: FormDataEvent) {
         .split(/ +/)
         .filter(Boolean);
     document
-        .querySelectorAll("[data-tags]")
-        .forEach((item) => item.classList.remove("highlight"));
+        .querySelectorAll(data.elements.tagHolders)
+        .forEach((item) => item.classList.remove(data.classes.highlight));
     state.projectsAndSkills.forEach((item) => {
         if (searchCriterias.length === 0)
             return (item.element.style.display = null);
@@ -78,14 +92,16 @@ function onSearchFormData(event: FormDataEvent) {
 
         if (searchResults.length) {
             item.element.style.display = null;
-            if (!item.element.classList.contains("open"))
+            if (!item.element.classList.contains(data.classes.open))
                 item.element.dispatchEvent(new Event(CustomEvents.Toggle));
             searchResults
                 .map((item) => Array.from(item))
                 .reduce((prev, current) => prev.concat(current))
                 .forEach((item) => {
-                    item.classList.add("highlight");
+                    item.classList.add(data.classes.highlight);
                 });
         } else item.element.style.display = "none";
     });
 }
+
+export default ShowcaseSection;

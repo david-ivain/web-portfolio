@@ -1,46 +1,26 @@
 ---
-import { TagGroups } from "@scripts/constants";
-interface Project {
-    name: string;
-    description: string[];
-}
-const projects: Project[] = [
-    {
-        name: "My Portfolio",
-        description: [
-            "This is my personal website. You're looking at it right now!",
-            `It was made using Asto. Technologies used include
-            <span data-tags="${TagGroups.HTML}">HTML</span>,
-            <span data-tags="${TagGroups.JS}">JS</span>,
-            <span data-tags="${TagGroups.TS}">TypeScript</span> and
-            <span data-tags="${TagGroups.CSS}">CSS</span>.`,
-        ],
-    },
-    {
-        name: "My Portfolio",
-        description: [
-            "This is my personal website. You're looking at it right now!",
-            `It was made using Asto. Technologies used include
-            <span data-tags="${TagGroups.HTML}">HTML</span>,
-            <span data-tags="${TagGroups.JS}">JS</span>,
-            <span data-tags="${TagGroups.TS}">TypeScript</span> and
-            <span data-tags="${TagGroups.CSS}">CSS</span>.`,
-        ],
-    },
-];
+import { projects } from "@scripts/data/projects";
 ---
 
 <h3 class="c-section__title2 s-projects__title">Projects<button data-action="enlargeProjects"><i class="ri-add-circle-line"></i></button></h3>
 <div class="s-projects__shadow">
     <div class="s-projects">
         {
-            projects.map(({ name, description }) => (
+            projects.map(({ name, description, tech }) => (
                 <div class="s-projects__item s-projectitem">
                     <h4 class="s-projectitem__title">{name}</h4>
                     <div class="s-projectitem__description">
                         {description.map((paragraph) => (
                             <p set:html={paragraph} />
                         ))}
+                        {tech.length > 0
+                            ? <ul class="s-projectitem__tech">
+                                {tech.map((techItem) => (
+                                    <li class="s-projectitem__tech-item" set:html={(techItem.fstring || '{}').replace('{}', `<span class="s-projectitem__tech-tags" data-tags="${techItem.tags}">${techItem.name}</span>`)}></li>
+                                    ))}
+                            </ul>
+                            : <></>
+                        }
                     </div>
                 </div>
             ))
@@ -95,7 +75,7 @@ const projects: Project[] = [
         transition: transform 0.5s;
     }
 
-    .s-projects__title button.open .ri-add-circle-line {
+    .s-projects__title button.enlarged .ri-add-circle-line {
         transform: rotate(45deg);
     }
 
@@ -131,6 +111,7 @@ const projects: Project[] = [
 
     .s-projectitem {
         flex: 200px 0 0;
+        max-width: 200px;
         height: 200px;
         border: 1px solid;
         padding: 16px;
@@ -138,11 +119,12 @@ const projects: Project[] = [
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        transition: flex 0.5s, height 0.5s;
+        transition: flex 0.5s, max-width 0.5s, height 0.5s;
     }
 
-    .s-projects.open .s-projectitem {
+    .s-projects.enlarged .s-projectitem {
         flex: min(400px, calc(100% - 16px)) 0 0;
+        max-width: min(400px, calc(100% - 16px));
         height: 400px;
     }
 
@@ -159,8 +141,52 @@ const projects: Project[] = [
         margin-block: 0.25em;
     }
 
-    .s-projectitem__description span.highlight {
+    .s-projectitem__description :global(.highlight) {
         text-decoration: underline;
+    }
+
+    .s-projectitem__tech {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .s-projectitem__tech-item {
+        display: inline;
+        font-size: 0;
+        line-height: 1.75;
+    }
+
+    .s-projects :global(.s-projectitem__tech-tags) {
+        font-size: var(--font-size-sm);
+    }
+
+    .s-projectitem__tech-item:not(:last-child) :global(.s-projectitem__tech-tags)::after {
+        content: " ● ";
+        display: inline;
+    }
+
+    .s-projects.enlarged .s-projectitem__tech {
+        margin-top: 1em;
+    }
+    
+    .s-projects.enlarged .s-projectitem__tech-item {
+        display: block;
+        padding-left: 8px;
+        border-left: 1px solid var(--color-text-on-dark-medium);
+        font-size: var(--font-size-sm);
+        white-space: normal;
+        line-height: normal;
+    }
+
+    .s-projects.enlarged .s-projectitem__tech-item:not(:last-child) {
+        margin-bottom: 0.5em;
+    }
+
+    .s-projects.enlarged :global(.s-projectitem__tech-tags)::after {
+        content: none;
     }
 
     /*
@@ -168,7 +194,7 @@ const projects: Project[] = [
      */
     
     @media (max-width: 464px) {
-        .s-projects.open {
+        .s-projects.enlarged {
             scroll-snap-type: x mandatory;
         }
     }
@@ -201,7 +227,7 @@ const projects: Project[] = [
     }
     _::-webkit-full-page-media,
     _:future,
-    :root .s-projects.open .s-projectitem {
+    :root .s-projects.enlarged .s-projectitem {
         flex: min(400px, 100%) 0 0;
     }
     /* }} */

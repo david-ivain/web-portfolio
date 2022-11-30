@@ -1,78 +1,5 @@
 ---
-import "@scripts/constants";
-import { TagGroups } from "@scripts/constants";
-interface Skill {
-    name: string;
-    tags: Array<string>;
-}
-interface SkillGroup {
-    name: string;
-    skills: Array<Skill>;
-}
-const skillGroups: SkillGroup[] = [
-    {
-        name: "Web Frontend",
-        skills: [
-            { name: "Salesforce Commerce Cloud", tags: [...TagGroups.SFCC] },
-            { name: "JavaScript ES6", tags: [...TagGroups.JS] },
-            { name: "TypeScript", tags: [...TagGroups.JS, ...TagGroups.TS] },
-            {
-                name: "React",
-                tags: [...TagGroups.REACT, ...TagGroups.JS, ...TagGroups.TS],
-            },
-            { name: "Vue", tags: [...TagGroups.VUE, ...TagGroups.JS] },
-            { name: "Svelte", tags: [...TagGroups.SVELTE, ...TagGroups.JS] },
-            { name: "Node JS", tags: [...TagGroups.NODE, ...TagGroups.JS] },
-            { name: "Webpack", tags: [...TagGroups.WEBPACK, ...TagGroups.JS] },
-            { name: "HTML5", tags: [...TagGroups.HTML] },
-            { name: "CSS3", tags: [...TagGroups.CSS] },
-            { name: "Sass", tags: [...TagGroups.SASS, ...TagGroups.CSS] },
-        ],
-    },
-    {
-        name: "Mobile",
-        skills: [
-            {
-                name: "Flutter",
-                tags: [
-                    ...TagGroups.FLUTTER,
-                    ...TagGroups.IOS,
-                    ...TagGroups.ANDROID,
-                    ...TagGroups.MOBILE,
-                ],
-            },
-            {
-                name: "React Native",
-                tags: [
-                    ...TagGroups.REACT,
-                    ...TagGroups.REACTNATIVE,
-                    ...TagGroups.JS,
-                    ...TagGroups.ANDROID,
-                    ...TagGroups.IOS,
-                    ...TagGroups.MOBILE,
-                ],
-            },
-            {
-                name: "Android",
-                tags: [
-                    ...TagGroups.ANDROID,
-                    ...TagGroups.JAVA,
-                    ...TagGroups.KOTLIN,
-                    ...TagGroups.MOBILE,
-                ],
-            },
-            {
-                name: "JetPack Compose",
-                tags: [
-                    ...TagGroups.ANDROID,
-                    ...TagGroups.KOTLIN,
-                    ...TagGroups.JETPACKC,
-                    ...TagGroups.MOBILE,
-                ],
-            },
-        ],
-    },
-];
+import { skillGroups } from "@scripts/data/skills";
 ---
 
 <h3 class="c-section__title2">Skills</h3>
@@ -85,16 +12,10 @@ const skillGroups: SkillGroup[] = [
                     <i class="ri-custom" />
                 </h4>
                 <ul class="s-skilltile__list s-skilltilelist">
-                    {skills.map((skill: Skill) => (
+                    {skills.map((skill) => (
                         <li
                             class="s-skilltilelist__item"
-                            data-tags={
-                                skill.tags.length
-                                    ? skill.tags.reduce((prev, current) =>
-                                          prev.concat(` ${current}`)
-                                      )
-                                    : ""
-                            }
+                            data-tags={skill.tags}
                         >
                             {skill.name}
                         </li>
@@ -160,7 +81,6 @@ const skillGroups: SkillGroup[] = [
 
     .s-skilltilelist__item:not(:last-child)::after {
         content: " ●";
-        letter-spacing: 0.5em;
         display: inline;
     }
 

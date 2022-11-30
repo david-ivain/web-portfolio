@@ -5,12 +5,24 @@
     />
     <div class="s-herosection__content">
         <h1 class="s-herosection__title">
-            Hello, welcome to my world!
+            <span class="s-code">Hello,</span> welcome to my <span
+                class="s-code">world!</span
+            >
         </h1>
         <p class="s-herosection__description">
-            My name is David and I'm a web developer. Donec in nunc magna.
-            Vivamus convallis magna urna, nec mattis nunc efficitur nec. Aliquam
-            semper ligula ac dolor molestie vulputate. Phasellus non nisi nulla.
+            My name is David and I'm a <span class="s-code">web developer</span>
+            (mainly). I can do a bunch of things with
+            <span class="s-code">JavaScript</span>
+            and <span class="s-code">CSS</span>.<br />
+            But I can do a lot more like
+            <span class="s-code">mobile development</span>
+            using <span class="s-code">Flutter</span> for example. I even know some
+            <span class="s-code">Java</span> and
+            <span class="s-code">C/C++</span>
+            thanks to my education.<br />
+            Right now, I'm employed by
+            <a class="s-code" href="https://www.capgemini.com/">CapGemini</a>
+            as a front-end developer.
         </p>
     </div>
 </div>
@@ -38,8 +50,14 @@
         color: var(--color-text-on-dark);
     }
 
+    .s-code {
+        font-family: monospace;
+        display: inline-block;
+        padding: 0px 0.4em;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
     .s-herosection__description {
-        font-style: italic;
         color: var(--color-text-on-dark);
     }
 </style>
